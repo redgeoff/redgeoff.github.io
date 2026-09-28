@@ -1,0 +1,178 @@
+<!doctype html><html xmlns=http://www.w3.org/1999/xhtml xml:lang=en-us lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.167.0"><title>I let AI agents write most of a live-trading codebase. Here's the gate that made it safe. &#183; redgeoff</title><meta name=description content="About 1,600 agent-written pull requests on a system that trades real money. Tests became the gate, and the interesting part is the three times a green build lied."><link rel=canonical href=https://redgeoff.com/posts/ai-agents-test-gate/><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZMV9CF3YF6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ZMV9CF3YF6")</script><meta itemprop=name content="I let AI agents write most of a live-trading codebase. Here's the gate that made it safe."><meta itemprop=description content="About 1,600 agent-written pull requests on a system that trades real money. Tests became the gate, and the interesting part is the three times a green build lied."><meta itemprop=datePublished content="2026-09-28T16:50:00-07:00"><meta itemprop=dateModified content="2026-09-28T16:50:00-07:00"><meta itemprop=wordCount content="3360"><meta itemprop=image content="https://redgeoff.com/posts/ai-agents-test-gate/railroad-crossing.jpg"><meta itemprop=keywords content="Ai,Ai Agents,Testing,Software Development,Claude,Cursor"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://redgeoff.com/posts/ai-agents-test-gate/railroad-crossing.jpg"><meta name=twitter:title content="I let AI agents write most of a live-trading codebase. Here's the gate that made it safe."><meta name=twitter:description content="About 1,600 agent-written pull requests on a system that trades real money. Tests became the gate, and the interesting part is the three times a green build lied."><meta property="og:url" content="https://redgeoff.com/posts/ai-agents-test-gate/"><meta property="og:site_name" content="redgeoff"><meta property="og:title" content="I let AI agents write most of a live-trading codebase. Here's the gate that made it safe."><meta property="og:description" content="About 1,600 agent-written pull requests on a system that trades real money. Tests became the gate, and the interesting part is the three times a green build lied."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-09-28T16:50:00-07:00"><meta property="article:modified_time" content="2026-09-28T16:50:00-07:00"><meta property="article:tag" content="Ai"><meta property="article:tag" content="Ai Agents"><meta property="article:tag" content="Testing"><meta property="article:tag" content="Software Development"><meta property="article:tag" content="Claude"><meta property="article:tag" content="Cursor"><meta property="og:image" content="https://redgeoff.com/posts/ai-agents-test-gate/railroad-crossing.jpg"><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://redgeoff.com/#author","name":"Geoff Cox","image":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/d1488b20cd7d55657e0b69f7d779c942?s=400&d=mp"},"description":" "},{"@type":"WebSite","@id":"https://redgeoff.com/#website","url":"https://redgeoff.com/","name":"redgeoff","description":" ","publisher":{"@id":"https://redgeoff.com/#author"},"inLanguage":"en-us"},{"@type":"WebPage","@id":"https://redgeoff.com/posts/ai-agents-test-gate/#webpage","url":"https://redgeoff.com/posts/ai-agents-test-gate/","name":"I let AI agents write most of a live-trading codebase. Here's the gate that made it safe.","isPartOf":{"@id":"https://redgeoff.com/#website"},"about":{"@id":"https://redgeoff.com/#author"},"datePublished":"2026-09-28T16:50:00-07:00","dateModified":"2026-09-28T16:50:00-07:00","description":"About 1,600 agent-written pull requests on a system that trades real money. Tests became the gate, and the interesting part is the three times a green build lied.","inLanguage":"en-us","potentialAction":[{"@type":"ReadAction","target":["https://redgeoff.com/posts/ai-agents-test-gate/"]}]},{"@type":"Article","isPartOf":{"@id":"https://redgeoff.com/posts/ai-agents-test-gate/#webpage"},"mainEntityOfPage":{"@id":"https://redgeoff.com/posts/ai-agents-test-gate/#webpage"},"headline":"I let AI agents write most of a live-trading codebase. Here's the gate that made it safe.","image":["https://redgeoff.com/posts/ai-agents-test-gate/railroad-crossing.jpg"],"datePublished":"2026-09-28T16:50:00-07:00","dateModified":"2026-09-28T16:50:00-07:00","publisher":{"@id":"https://redgeoff.com/#author"},"keywords":["Ai","Ai Agents","Testing","Software Development","Claude","Cursor"],"articleSection":["Programming"],"inLanguage":"en-us","author":{"@type":"Person","name":null},"potentialAction":[{"@type":"CommentAction","name":"Comment","target":["https://redgeoff.com/posts/ai-agents-test-gate/#comments"]}]}]}</script><link type=text/css rel=stylesheet href=/css/print.css media=print><link type=text/css rel=stylesheet href=/css/poole.css><link type=text/css rel=stylesheet href=/css/hyde.css><style type=text/css>.sidebar{background-color:#fc2803}.read-more-link a{border-color:#fc2803}.read-more-link a:hover{background-color:#fc2803}.pagination li a{color:#fc2803;border:1px solid #fc2803}.pagination li.active a{background-color:#fc2803}.pagination li a:hover{background-color:#fc2803;opacity:.75}footer a,.content a,.related-posts li a:hover{color:#fc2803}</style><link type=text/css rel=stylesheet href=/css/blog.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin=anonymous><link rel=apple-touch-icon-precomposed sizes=144x144 href=/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=/favicon.png><link href=https://redgeoff.com/posts/index.xml rel=alternate type=application/rss+xml title=redgeoff></head><body><aside class=sidebar><div class=container><div class=sidebar-about><div class=author-image><a href=https://redgeoff.com/><img src="https://www.gravatar.com/avatar/d1488b20cd7d55657e0b69f7d779c942?s=200&d=mp" class="img-circle img-headshot center" alt=Gravatar></a></div><h1>redgeoff</h1><p class=lead></p></div><nav><ul class=sidebar-nav><li><a href=https://redgeoff.com/>Home</a></li><li><a href=/posts/>Posts</a></li><li><a href=/publications/>Publications</a></li><li><a href=/about/>About</a></li><li><a href=/music/>Music</a></li></ul></nav><section class=social-icons><a href=https://github.com/redgeoff rel=me title=GitHub target=_blank><i class="fab fa-github" aria-hidden=true></i>
+</a><a href=https://www.linkedin.com/in/geoffrey-cox rel=me title=Linkedin target=_blank><i class="fab fa-linkedin" aria-hidden=true></i>
+</a><a href=https://medium.com/@redgeoff rel=me title=Medium target=_blank><i class="fab fa-medium" aria-hidden=true></i>
+</a><a href="https://stackoverflow.com/users/2831606/redgeoff?tab=profile" rel=me title=StackOverflow target=_blank><i class="fab fa-stack-overflow" aria-hidden=true></i>
+</a><a href=https://twitter.com/coxgeoffrey rel=me title=Twitter target=_blank><i class="fab fa-twitter" aria-hidden=true></i>
+</a><a href=https://redgeoff.com/posts/index.xml title="RSS feed"><i class="fas fa-rss" aria-hidden=true></i></a></section></div></aside><main class="content container"><div class=post><h1 class=title>I let AI agents write most of a live-trading codebase. Here's the gate that made it safe.</h1><div class=post-date><time datetime=2026-09-28T16:50:00-0700>Sep 28, 2026</time> <span class=readtime>&#183; 16 min read</span></div><div><figure><img src=/posts/ai-agents-test-gate/railroad-crossing.jpg alt="A lowered railroad crossing barrier with glowing red lights across a wet road at dusk, a train blurring past behind it"><figcaption><p>Image credit: AI-generated</p></figcaption></figure><p>For the last 21 months I have been the only engineer on TopSet, a system that trades
+real money. It picks a portfolio with machine-learning models, rebalances on a
+schedule, and executes through live broker APIs on infrastructure I own end to end.
+It is my own capital, not anyone else&rsquo;s.</p><p>Agents wrote most of the code. Claude Code, Cursor, Copilot. About 1,600 pull
+requests in those 21 months, which is more than I could have typed in three times
+the span.</p><p>That leaves you with a choice everyone adopting these tools runs into. You can read
+every line the agent produces, in which case you have bought yourself a slower
+version of writing it yourself. Or you can skim, merge, and move fast, in which case
+you accumulate code that looks right and isn&rsquo;t. On a system that places orders with
+real money, the second option ends with trades you didn&rsquo;t intend.</p><p>I took a third option: make something other than my attention the thing that decides
+what ships. Tests became the gate. Nothing merges or deploys without a green build,
+and my own reading moved up a level, to design, to test coverage, and to the handful
+of results I refuse to let change quietly.</p><p>That worked. It also failed in ways I did not expect, and the failures are the
+interesting part, so I&rsquo;ll spend most of this post there.</p><h2 id=what-i-actually-read>What I actually read</h2><p>&ldquo;Tests are the gate&rdquo; is not the same as &ldquo;I stopped looking.&rdquo; What changed is where I
+spend attention.</p><p>Most pull requests get a light review. Research code I skim. Changes to the parts
+that decide what to buy or how to trade it, the model training and the execution
+paths, I read properly, looking for whether the approach is reasonable rather than
+whether every line is correct. The tests cover the lines. I cover the idea.</p><p>Then there is one rule I do not bend. If a change moves a snapshot, or shifts the
+result of an end-to-end test, that is a stop. Snapshots and integration results are
+supposed to be stable, so a diff in one of them means either the change did something
+I didn&rsquo;t intend, or it did something I did intend and I now owe an explanation. An
+agent will happily regenerate a snapshot to make a build go green. That is the single
+most dangerous thing these tools do, and it is why the snapshot files live in the
+repo where a diff is visible in review.</p><p>For anything involving a calculation I have not verified before, the tests are not
+enough either. I have the agent write a report script, and there are now 161 of them,
+that dumps the pipeline to CSV. I open the CSV in a spreadsheet and check the
+arithmetic by hand: return per trade, slippage, annualized return. Then I spot-check
+inputs, picking a few prices and going back to the raw data directory to confirm
+those were the prices the system actually used.</p><p>It is slow and it is not clever, and it has caught things nothing else would. A test
+asserts that a function returns what the author believed it should return. A
+spreadsheet asks whether the number is true.</p><h2 id=what-the-gate-is>What the gate is</h2><figure><img src=/posts/ai-agents-test-gate/test-gate.png alt="Diagram of the test gate: every agent pull request runs lint, types, about 7,500 tests, an empty-database check, a migration round trip and terraform validate before it can merge and deploy. A weekly suite runs end-to-end rebalancings, a 100-run flake hunt, training snapshots and leakage checks against main. Production errors page me on Discord, and every fix comes back through the same gate. Underneath: what I still check myself."></figure><p>Every pull request runs:</p><ul><li>lint (ruff) and type checking (mypy)</li><li>about 7,500 tests across 331 test modules</li><li>an assertion that the test database is empty afterward</li><li>a migration rollback-and-reapply, all the way to base and back</li><li><code>terraform validate</code> against both AWS accounts</li></ul><p>If any of that fails, nothing merges. The build is the merge gate, and it is not
+advisory.</p><p>Once a week, on a schedule, a heavier set runs:</p><ul><li>two end-to-end rebalancing runs against a mock broker</li><li>the same integration test 100 times in a row, looking for flakes</li><li>nine deterministic model-training snapshot runs, pinned inside Docker</li><li>two leakage checks on the training pipeline</li></ul><p>Running the same integration test 100 times only makes sense because the test is not
+the same each time. The mock broker fills orders probabilistically: a 20% chance per
+10-second cycle, 70% of those complete and the rest partial at a random size, at
+random prices. Every iteration produces a different interleaving of fills, partial
+fills and timing. A hundred runs is a search for race conditions, not a hundred
+repeats of one path.</p><p>What it finds are real concurrency bugs wearing flaky-test costumes. Worker threads
+leaking between tests. A queued task waking up after teardown had already deleted the
+row it wanted. A data loader that wasn&rsquo;t thread-safe and corrupted a shared index
+under load. Each one showed up first as &ldquo;that test fails sometimes.&rdquo;</p><p>The weekly set exists because a flaky gate is worse than no gate. If a test fails once
+every thirty runs, and twenty agent PRs land in a week, that one test goes red most
+weeks. Have a few like it and something red is always on screen, and you start
+ignoring red. Hunting flakes is not hygiene here. It is what
+keeps the gate meaningful.</p><h2 id=the-tests-that-matter-are-about-money-not-functions>The tests that matter are about money, not functions</h2><p>Unit tests are cheap and agents write them happily. They are not what I trust.</p><p>What I trust are end-to-end tests that drive a full rebalancing against a mock
+broker, with the awkward parts turned on. They&rsquo;re named after the ways money goes
+wrong:</p><ul><li>orders that have to be resubmitted</li><li>a rebalancing that resumes from the middle, with partial fills already on the books</li><li>a resume that has both buys and sells outstanding</li><li>smart orders cancelled mid-flight, on the sell side and then the buy side</li><li>deposits and repeating withdrawals arriving while a rebalancing is in progress</li></ul><p>These are exactly the control flows a language model gets plausibly wrong.
+Interrupted work, partial state, money arriving in the middle of an operation: the
+code for each of these reads fine in isolation. It&rsquo;s the interaction that bites.</p><p>Here is one that made it past review and got caught by the constraint at the bottom
+of the stack. When the last pending buy of a rebalancing had its amount adjusted for
+pending withdrawals, the adjusted value could land on exactly zero. The existing
+guard raised an error on a negative amount, but zero isn&rsquo;t negative. The
+affordability check, <code>available_cash >= amount</code>, was <code>0 >= 0</code>, so it passed. The
+order was promoted, and the database rejected it: <code>amount > 0</code> is a check constraint
+on that table.</p><p>The interesting part is what that did to the retry. The integrity error fired inside
+the same transaction that carried the completing order&rsquo;s status update, so the
+rollback discarded that too. The scheduler came back around, found identical inputs,
+and did it again. Not a self-healing retry: a stuck rebalancing.</p><p>The fix took three attempts, and the second one is the useful story. Gating the
+promotion on <code>amount > 0</code> looks correct and does nothing, because the code had
+already assigned the adjusted value to a live ORM object. That marked it dirty, and
+the next autoflush in the same transaction persisted the zero regardless of whether
+the order was ever promoted. The condition guarded the decision, not the mutation.</p><p>I only know that because the failure was reproduced live against <code>main</code> before any
+fix was written, and the first fix was re-run against that same repro rather than
+checked by reading the code. When an agent is writing the patch, &ldquo;I read it and it
+looks right&rdquo; is the single least reliable signal available to you.</p><h2 id=three-ways-a-green-build-lied-to-me>Three ways a green build lied to me</h2><p>This is the part I&rsquo;d want to read, so here are the three worst cases, all real, all
+from this codebase.</p><h3 id=1-the-test-asserted-a-convention-that-does-not-exist>1. The test asserted a convention that does not exist</h3><p>Corporate actions have to be applied to historical prices, and stock dividends are
+the fiddly ones. My broker&rsquo;s API returns a <code>rate</code> for each. The code treated that
+rate as a bare fraction: a 5% stock dividend arrives as <code>0.05</code>.</p><p>It isn&rsquo;t. It&rsquo;s the ratio of new shares to old. Every one of the 101 stock-dividend
+records across 43 symbols in my data has a rate of at least 1.0016. Not one is a
+bare fraction. The convention the code assumed does not occur in the data at all.</p><p>The unit test passed, because the test asserted the same wrong convention with a
+fixture value of <code>rate: 0.05</code>, a number that cannot appear in production. The test
+and the code were wrong in exactly the same way, which is what you get when both are
+written in the same sitting from the same misunderstanding.</p><p>The effect was that each stock dividend roughly halved the adjusted price, and it
+compounded across events. One symbol with nine of them came out deflated by about
+490×, turning a real price history into a fake ramp of more than a thousand-fold
+over the period. And because every price stayed between a few cents and a few
+hundred dollars, a check for implausible price levels would not have flagged it
+either.</p><figure><img src=/posts/ai-agents-test-gate/scco-stock-dividends.png alt="Log-scale chart of Southern Copper (SCCO) adjusted close from 2016 to 2026. The fixed series runs from about $15 to $200. The buggy series starts about 490 times lower, near 3 cents, and steps up at each of nine stock-dividend ex-dates in 2024 to 2026 until it meets the fixed series."><figcaption><p>Southern Copper&rsquo;s real daily prices, adjusted twice by the same code. The only difference is whether the stock-dividend factor is 1 / rate or 1 / (1 + rate).</p></figcaption></figure><p>The fix was a corrected fixture, plus a regression test that runs a nine-event
+sequence and asserts the cumulative adjustment factor stays sane. The lesson I took:
+a fixture is a claim about the world, and nobody reviews fixtures.</p><h3 id=2-the-test-passed-on-nan>2. The test passed on NaN</h3><p>In a research tool, an agent added a second way to select a model configuration and
+reported the result in the PR: 100% agreement with the existing selector, at every
+sample size tried.</p><p>That number was not real. The tool built its pool from a source that was missing the
+columns the default scoring version needs, so every score came out NaN. With all
+scores NaN, the selector fell through to a fixed tie-break order, which of course
+agrees with itself 100% of the time at every sample size.</p><p>The test that was supposed to cover this had been passing on those same NaN scores
+for as long as it had existed. It never checked anything. Green, meaningless, and
+quoted in a PR description as a finding.</p><p>The follow-up PR made the condition a hard error rather than a silent NaN, pinned
+the test to a scoring version where the columns exist, and added guards. It also
+flagged that an older result produced the same way might carry the same artifact.
+That is the right instinct: when you find a lie, go and check what else it told you.</p><h3 id=3-the-change-did-nothing-at-all>3. The change did nothing at all</h3><p>An agent wired a new training target through what looked like the right code path.
+The first screen ran clean and produced numbers bit-for-bit identical to the
+baseline. Every metric, to four decimal places.</p><p>Identical results are not a pass. They&rsquo;re a smell. Two different configurations
+producing byte-equal output usually means one of them didn&rsquo;t happen.</p><p>It hadn&rsquo;t. The runner always sets a parameter that routes execution to a completely
+separate function, which builds its own training target and never looked at the new
+field. Unpickling both runs and diffing the actual selections showed 238 of 238
+identical picks for the test year. After the real fix, 0 of 238 were identical, and
+a regression test now asserts the two modes produce different output.</p><p>Nothing failed. The compute was spent. The result would have gone into the research
+log as &ldquo;no effect,&rdquo; which is a conclusion, and it would have been wrong.</p><h3 id=the-shape-of-all-three>The shape of all three</h3><p>In every case the build was green, and the number was wrong. Tests prove that the
+code does what the tests say. They say nothing about whether what the tests say is
+true, whether the code under test ran at all, or whether the data going in is what
+you think.</p><p>That is the agent-era failure mode, and it is worse with agents than without them,
+for a simple reason: an agent writes the code and the test together, from one
+reading of the problem. If the reading is wrong, both artifacts are wrong, and they
+agree. A human pair would at least have had two readings.</p><p>What I do about it now, concretely:</p><ul><li>Distrust results that are identical, unchanged, or perfect. Check the output, not
+the exit code.</li><li>Treat fixtures as claims. If a fixture value can&rsquo;t occur in production, that&rsquo;s a
+bug in the test.</li><li>Make impossible states loud. NaN, missing data, and empty inputs should raise, not
+flow through and produce a number.</li><li>When something is found to be wrong, go back and check what else that thing told
+you.</li></ul><h2 id=the-reviewer-that-isnt-a-test>The reviewer that isn&rsquo;t a test</h2><p>Some mistakes are not code-shaped and no test will ever catch them.</p><p>So I added a second kind of review: a deliberately skeptical reviewer persona, run
+against a finished result rather than a diff, with instructions to argue that the
+result is not real. I iterated on the persona with Claude until it stopped being
+agreeable.</p><p>It found things I am glad it found. That a configuration had been tuned by
+repeatedly checking results on data I had promised myself I would only look at once,
+so my holdout wasn&rsquo;t a holdout any more. That a cost model was running with zero
+financing cost while the strategy it priced used nearly four times leverage.</p><p>Neither is a bug. Both are the kind of error that invalidates a conclusion, and no
+test suite in the world was going to tell me.</p><h2 id=the-gate-after-the-gate>The gate after the gate</h2><p>CI stops caring the moment something merges. After that the system runs unattended,
+on a schedule, against a live broker, and the question changes from &ldquo;is this code
+correct&rdquo; to &ldquo;is this thing behaving right now.&rdquo;</p><p>Every ERROR the system logs in production becomes a CloudWatch alarm that posts to a
+Discord channel on my phone. That is the whole alerting stack, and for a one-person
+operation it is enough: I am not running a rotation, I just need to know.</p><p>The loop from there is the same one I use for everything else. Point an agent at the
+production logs, hand it a local copy of the database from around the failure, ask
+for a diagnosis and a fix with a test. The logs and the data are usually enough for
+it to find the problem, and the test it writes is the thing that stops the problem
+coming back. Several of the bugs in this post arrived that way rather than through
+CI.</p><p>Worth saying plainly: the tests did not catch those. The tests caught the next
+occurrence.</p><h2 id=what-stays-human>What stays human</h2><p>Architecture. Test design. What &ldquo;done&rdquo; means. Merge judgment when the tests pass and
+something still feels off.</p><p>And one more thing that turned out to matter: the repo&rsquo;s own instruction file. Every
+time an agent reached a wrong conclusion in a way another agent would repeat, I
+wrote the correction down there. One rule says that any claim of data leakage must
+name the specific date boundary it violates, because two different agents had
+asserted leakage from reasoning alone, and both were wrong. That file is now a list
+of the mistakes this codebase invites. It&rsquo;s the closest thing I have to
+institutional memory for a team of one.</p><h2 id=what-it-cost>What it cost</h2><p>The per-PR suite takes about ten minutes. That is the tax on every change, and it is
+the number I would defend hardest: ten minutes is short enough that I never route
+around it, and long enough to run tests that touch a database and a fake broker.</p><p>The machine bill is every one of the 3,000 GitHub Actions minutes my plan includes,
+plus roughly $20 a month for extra minutes on top. The agents themselves are Claude
+Pro and Cursor Pro, $20 each. I also paid $40 a month for Copilot until GitHub moved
+it to per-token billing, which would have raised my bill more than tenfold, so that
+work moved to Claude Code and Cursor. So the tools that wrote most of this codebase
+cost tens of dollars a month, like the compute spent checking them, and neither is
+what the project actually cost.</p><p>What it actually cost is fixtures and flakes. Writing a mock broker that fails in
+realistic ways, maintaining a self-contained dataset so model training can be tested
+at all, and then the long tail of chasing tests that fail once in thirty runs. None
+of that is glamorous and all of it is load-bearing. Every hour I skipped there came
+back later as an hour of not being able to trust a result.</p><p>And sometimes the gate itself is the thing that&rsquo;s broken. The 100-run soak lives in a
+shell script rather than inline in CI, because the inline version ran under a POSIX
+shell where <code>{1..100}</code> isn&rsquo;t brace expansion. It was a literal string. The loop ran
+exactly once, and reported success, for longer than I&rsquo;d like to admit.</p><p>The tests are not where I over-built. Every gate in this post exists because
+something broke, or nearly did, and the existing checks let it through. I would add
+all of them again.</p><p>Where I over-built is everything the tests had to cover.</p><p>I started TopSet expecting to turn it into a product, so I built it for customers who
+never existed. A bot lifecycle with eleven kinds of change request, each one a queued,
+locked, asynchronous workflow object, so that deposits and withdrawals and stops could
+be requested safely by someone who wasn&rsquo;t me. Two broker integrations instead of one.
+A staging environment that mirrors production, behind a VPN. Cross-account backups
+with compliance-grade retention locks on a database that holds my own trades.</p><p>For one person running their own accounts, several of those could have been a script I
+ran by hand while watching it.</p><p>That is the part that compounds, and it is why I am putting it in a post about
+testing. Every one of those surfaces is something the gate has to cover. The change
+requests need end-to-end tests for money arriving mid-rebalance. Two brokers means two
+of everything, including the mocks. The staging environment is a second place for
+migrations to fail. I did not pay for the product shape once, in the building. I have
+paid for it every week since, in the size of the harness that has to keep it honest.</p><p>If I were starting again for a book of one, I would build the trading and the research
+properly and leave the product machinery until somebody asked for it.</p><h2 id=if-youre-rolling-this-out-to-a-team>If you&rsquo;re rolling this out to a team</h2><p>I&rsquo;ve done this alone, with tests I wrote and one person&rsquo;s judgment. That is not the
+same problem as a team of fifteen, and I&rsquo;d be careful about anyone who tells you
+otherwise. But some of it transfers, and the ordering I&rsquo;d insist on comes from a
+team I did run: at a healthcare company, requiring automated tests on every PR is
+what took active medium and high bugs down 72% and weekly hotfixes from 7 to 1.5.
+That was before agents. It&rsquo;s the same first move.</p><ol><li><strong>Fix the gate before you raise throughput.</strong> Coverage on the paths that lose
+money or data, and no tolerated flakes. Agents multiply whatever your CI already
+is.</li><li><strong>The author owns the change, whoever typed it.</strong> &ldquo;The agent wrote it&rdquo; is not a
+review comment, and it is not a defense in a postmortem.</li><li><strong>Review the result, not the diff.</strong> For anything that produces a number, ask
+what would look different if the change had done nothing.</li><li><strong>Measure escaped defects and hotfix rate.</strong> Not lines, not PR counts. Agents
+make those metrics meaningless overnight.</li></ol><p>The part I would not change: the gate is what let one person move at this speed on a
+system where mistakes cost real money. The part I underestimated: a gate is a claim
+about correctness, and claims need checking too.</p><hr><p><em>This describes software I run on my own accounts. It is not investment advice and I
+do not offer investment services.</em></p></div><div><ul class=tags><li><a href=https://redgeoff.com/tags/ai/ class=tag-link>Ai</a></li><li><a href=https://redgeoff.com/tags/ai-agents/ class=tag-link>Ai Agents</a></li><li><a href=https://redgeoff.com/tags/testing/ class=tag-link>Testing</a></li><li><a href=https://redgeoff.com/tags/software-development/ class=tag-link>Software Development</a></li><li><a href=https://redgeoff.com/tags/claude/ class=tag-link>Claude</a></li><li><a href=https://redgeoff.com/tags/cursor/ class=tag-link>Cursor</a></li></ul></div><div class=newsletter><iframe width=540 height=480 src="https://bffb2dc6.sibforms.com/v2/serve/MUIFAPjHosAP8284TaGRBVW61iYKp1ogvyXwlunHvyIwETQiAyVXU9IxSqnckuMu0k1QxJpCdyCfQpz-2Dvh4ZliV5G3Tngq6jxlwaFgc2FsU8mpdyWnGJlRB8-4Qkx9J35Auq0OmBzuU51WjSvV2yFaIcROdD5DJzojJAMaU7_TCfrZ8XQvzQvM7560FqwweK9gOA9CeVRkSUHBVA==" title="Subscribe to new posts by email" frameborder=0 scrolling=auto allowfullscreen></iframe></div></div></main><footer><div><p>&copy; Geoff Cox 2026</p></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js integrity="sha256-MAgcygDRahs+F/Nk5Vz387whB4kSK9NXlDN3w58LLq0=" crossorigin=anonymous></script><script src=/js/jquery.min.js></script><script src=/js/soho.js></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZMV9CF3YF6"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ZMV9CF3YF6")}</script></body></html>
