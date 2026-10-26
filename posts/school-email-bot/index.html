@@ -1,0 +1,144 @@
+<!doctype html><html xmlns=http://www.w3.org/1999/xhtml xml:lang=en-us lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.168.0"><title>I built an AI bot to read our kids' school email. Here's what I'd tell you before you build one. &#183; redgeoff</title><meta name=description content="About 200 school emails in six weeks, down to one short digest a day. How the bot works, what it can't touch, and what I'd tell you first."><link rel=canonical href=https://redgeoff.com/posts/school-email-bot/><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZMV9CF3YF6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ZMV9CF3YF6")</script><meta itemprop=name content="I built an AI bot to read our kids' school email. Here's what I'd tell you before you build one."><meta itemprop=description content="About 200 school emails in six weeks, down to one short digest a day. How the bot works, what it can't touch, and what I'd tell you first."><meta itemprop=datePublished content="2026-10-26T15:33:00-07:00"><meta itemprop=dateModified content="2026-10-26T15:33:00-07:00"><meta itemprop=wordCount content="2772"><meta itemprop=image content="https://redgeoff.com/posts/school-email-bot/school-bot-hero.jpg"><meta itemprop=keywords content="Ai,Ai Agents,Automation,Grok,Cursor,Productivity"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://redgeoff.com/posts/school-email-bot/school-bot-hero.jpg"><meta name=twitter:title content="I built an AI bot to read our kids' school email. Here's what I'd tell you before you build one."><meta name=twitter:description content="About 200 school emails in six weeks, down to one short digest a day. How the bot works, what it can't touch, and what I'd tell you first."><meta property="og:url" content="https://redgeoff.com/posts/school-email-bot/"><meta property="og:site_name" content="redgeoff"><meta property="og:title" content="I built an AI bot to read our kids' school email. Here's what I'd tell you before you build one."><meta property="og:description" content="About 200 school emails in six weeks, down to one short digest a day. How the bot works, what it can't touch, and what I'd tell you first."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-10-26T15:33:00-07:00"><meta property="article:modified_time" content="2026-10-26T15:33:00-07:00"><meta property="article:tag" content="Ai"><meta property="article:tag" content="Ai Agents"><meta property="article:tag" content="Automation"><meta property="article:tag" content="Grok"><meta property="article:tag" content="Cursor"><meta property="article:tag" content="Productivity"><meta property="og:image" content="https://redgeoff.com/posts/school-email-bot/school-bot-hero.jpg"><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://redgeoff.com/#author","name":"Geoff Cox","image":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/d1488b20cd7d55657e0b69f7d779c942?s=400&d=mp"},"description":" "},{"@type":"WebSite","@id":"https://redgeoff.com/#website","url":"https://redgeoff.com/","name":"redgeoff","description":" ","publisher":{"@id":"https://redgeoff.com/#author"},"inLanguage":"en-us"},{"@type":"WebPage","@id":"https://redgeoff.com/posts/school-email-bot/#webpage","url":"https://redgeoff.com/posts/school-email-bot/","name":"I built an AI bot to read our kids' school email. Here's what I'd tell you before you build one.","isPartOf":{"@id":"https://redgeoff.com/#website"},"about":{"@id":"https://redgeoff.com/#author"},"datePublished":"2026-10-26T15:33:00-07:00","dateModified":"2026-10-26T15:33:00-07:00","description":"About 200 school emails in six weeks, down to one short digest a day. How the bot works, what it can't touch, and what I'd tell you first.","inLanguage":"en-us","potentialAction":[{"@type":"ReadAction","target":["https://redgeoff.com/posts/school-email-bot/"]}]},{"@type":"Article","isPartOf":{"@id":"https://redgeoff.com/posts/school-email-bot/#webpage"},"mainEntityOfPage":{"@id":"https://redgeoff.com/posts/school-email-bot/#webpage"},"headline":"I built an AI bot to read our kids' school email. Here's what I'd tell you before you build one.","image":["https://redgeoff.com/posts/school-email-bot/school-bot-hero.jpg"],"datePublished":"2026-10-26T15:33:00-07:00","dateModified":"2026-10-26T15:33:00-07:00","publisher":{"@id":"https://redgeoff.com/#author"},"keywords":["Ai","Ai Agents","Automation","Grok","Cursor","Productivity"],"articleSection":["Programming"],"inLanguage":"en-us","author":{"@type":"Person","name":null},"potentialAction":[{"@type":"CommentAction","name":"Comment","target":["https://redgeoff.com/posts/school-email-bot/#comments"]}]}]}</script><link type=text/css rel=stylesheet href=/css/print.css media=print><link type=text/css rel=stylesheet href=/css/poole.css><link type=text/css rel=stylesheet href=/css/hyde.css><style type=text/css>.sidebar{background-color:#fc2803}.read-more-link a{border-color:#fc2803}.read-more-link a:hover{background-color:#fc2803}.pagination li a{color:#fc2803;border:1px solid #fc2803}.pagination li.active a{background-color:#fc2803}.pagination li a:hover{background-color:#fc2803;opacity:.75}footer a,.content a,.related-posts li a:hover{color:#fc2803}</style><link type=text/css rel=stylesheet href=/css/blog.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin=anonymous><link rel=apple-touch-icon-precomposed sizes=144x144 href=/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=/favicon.png><link href=https://redgeoff.com/posts/index.xml rel=alternate type=application/rss+xml title=redgeoff></head><body><aside class=sidebar><div class=container><div class=sidebar-about><div class=author-image><a href=https://redgeoff.com/><img src="https://www.gravatar.com/avatar/d1488b20cd7d55657e0b69f7d779c942?s=200&d=mp" class="img-circle img-headshot center" alt=Gravatar></a></div><h1>redgeoff</h1><p class=lead></p></div><nav><ul class=sidebar-nav><li><a href=https://redgeoff.com/>Home</a></li><li><a href=/posts/>Posts</a></li><li><a href=/publications/>Publications</a></li><li><a href=/about/>About</a></li><li><a href=/music/>Music</a></li></ul></nav><section class=social-icons><a href=https://github.com/redgeoff rel=me title=GitHub target=_blank><i class="fab fa-github" aria-hidden=true></i>
+</a><a href=https://www.linkedin.com/in/geoffrey-cox rel=me title=Linkedin target=_blank><i class="fab fa-linkedin" aria-hidden=true></i>
+</a><a href=https://medium.com/@redgeoff rel=me title=Medium target=_blank><i class="fab fa-medium" aria-hidden=true></i>
+</a><a href="https://stackoverflow.com/users/2831606/redgeoff?tab=profile" rel=me title=StackOverflow target=_blank><i class="fab fa-stack-overflow" aria-hidden=true></i>
+</a><a href=https://twitter.com/coxgeoffrey rel=me title=Twitter target=_blank><i class="fab fa-twitter" aria-hidden=true></i>
+</a><a href=https://redgeoff.com/posts/index.xml title="RSS feed"><i class="fas fa-rss" aria-hidden=true></i></a></section></div></aside><main class="content container"><div class=post><h1 class=title>I built an AI bot to read our kids' school email. Here's what I'd tell you before you build one.</h1><div class=post-date><time datetime=2026-10-26T15:33:00-0700>Oct 26, 2026</time> <span class=readtime>&#183; 14 min read</span></div><div><figure><img src=/posts/school-email-bot/school-bot-hero.jpg alt="A pile of tilted cards labeled Newsletter, Reminder, Flyer, Form due and other school messages on a dark background, with an arrow to a single School digest page with Must-do, This week and Coming up sections"><figcaption><p>Image credit: author, drawn with code</p></figcaption></figure><p>This is a story about how my wife and I went from several school emails and texts a day
+to one short digest every afternoon, and about what it took to trust an AI bot to write
+it. Getting the bot to summarize was the easy part. Most of the work went into deciding
+what it is not allowed to do, and into catching the times it got something wrong without
+saying so.</p><p>If you read <a href=/posts/ai-agents-test-gate/>my first post</a>, this is the
+same idea in a very different setting. There, automated tests were the gate that let AI
+agents write code for a system that trades real money. Here, the gate is a short list of
+things the bot can never do, plus one place where every rule it follows is written down.</p><h3 id=why-build-a-bot-for-school-email>Why Build a Bot for School Email?</h3><p>We have two kids at two different schools, a 5th grader and a 2nd grader. Between the
+district, both schools, the teachers, the parent groups, the after-school club and the
+flyers, the messages never really stop. We were getting multiple emails and texts a day,
+and I figured a bot would be a good way to consolidate the noise.</p><p>I counted afterwards. In the six weeks from September 9 to October 21, 2026, roughly 200
+emails came in that were actually about school, or a bit over 30 a week. Over the same
+weeks, the kids&rsquo; sports team app sent another 120. Some of the school mail is duplicated,
+too, e.g. the after-school club often sends the same notice once for each kid.</p><p>On top of that, the schools use <a href=https://talkingpts.org/>TalkingPoints</a>, an app for
+school announcements and teacher messages, and those never reach email at all. In one
+sample week it had about 13 announcements and 3 active conversations with teachers. In
+other words, keeping up meant reading all of that email and then remembering to open a
+separate app every day.</p><figure><img src=/posts/school-email-bot/six-weeks-of-messages.png alt="Horizontal bar chart: about 200 school emails in, 120 sports team app emails left out, and 44 digests sent, September 9 to October 21, 2026"><figcaption><p>Six weeks of school messages. TalkingPoints isn&rsquo;t in the count, because it never reaches email.</p></figcaption></figure><h3 id=what-does-the-bot-actually-do>What Does the Bot Actually Do?</h3><p>Every afternoon, the bot reads the new school mail in Gmail and the new messages in
+TalkingPoints. It follows the links to the full newsletters instead of trusting the
+preview in the email, and then it writes one digest. Everything is grouped by school, with
+the must-dos first. Every event has a time, or says &ldquo;time not listed&rdquo; rather than a guess.
+A notice that was sent once per kid shows up once, and the sports team mail is left out.
+On Saturday evenings, a second email looks ahead at the next few weeks.</p><figure><img src=/posts/school-email-bot/example-digest.png alt="An illustrative school digest with must-dos first, an Add to calendar tag, Already in calendar tags, a section per grade and a coming-up section"><figcaption><p>An illustrative digest with made-up items, to show the format. The real ones are private.</p></figcaption></figure><p>Before it writes, the bot also checks my Google Calendar. If a must-do is already on it,
+the digest says &ldquo;Already in calendar&rdquo;. If it isn&rsquo;t, the item gets an &ldquo;Add to calendar&rdquo;
+link, so adding it takes one click. And if nothing new came in, the bot sends nothing at
+all, so an email from it always means there&rsquo;s something to read.</p><p>The digest goes from the bot&rsquo;s own Gmail account to a mailing list that Mimi and I share.
+From September 9 to October 20 it sent 44 digests, 40 daily and 4 weekly. That&rsquo;s about 7
+emails a week in place of 30-plus emails and an app. I&rsquo;d estimate it saves me 30 to 45
+minutes of reading a week.</p><p>We both read the digest every day, and it has cut down the time I spend keeping up with
+all the notifications. Another benefit is that my day has far fewer interruptions. Instead
+of switching over every time an email or a message comes in, I let them pile up and read
+them all at once in the digest. It has also made it less likely that something falls
+through the cracks, and the calendar links have made it easy to keep my calendar up to
+date. Mimi and I share our calendars with each other, so whatever I add, she can see too.</p><p>Here are a few of its catches from the first six weeks:</p><ol><li>A school event that was posted only in TalkingPoints, with the details on a linked
+newsletter page. Reading email alone would have missed it.</li><li>Two notices gave different dates for the same family night, and the later date was the
+same evening as an event at the other school. The digest flagged it so we could check.</li><li>A calendar entry labeled with the wrong school, and another that ran half an hour
+longer than the school said.</li><li>A newsletter that printed last year&rsquo;s date for this year&rsquo;s parade.</li><li>A reading test on the same day as two appointments. A later teacher message showed it
+had already been handled, so the digest told us there was nothing to reschedule.</li></ol><h3 id=what-is-the-bot-not-allowed-to-do>What Is the Bot Not Allowed to Do?</h3><p>The bot can read a lot: my Gmail, my calendar and TalkingPoints. If it could also write to
+all of those, one bad run could send an email in my name to a teacher, move an event on my calendar or reply in a class conversation. So most of its rules are about what it
+can&rsquo;t do.</p><ol><li>It never sends from my account. It has its own Gmail account, and it only sends to our
+shared list. It can only read my Gmail.</li><li>It never creates, changes or deletes a calendar event. It reads the calendar, and one of
+us clicks &ldquo;Add to calendar&rdquo;.</li><li>It never replies to the school, by email or in TalkingPoints.</li><li>It never invents a detail. If a time or a place isn&rsquo;t in the source, the digest says so.</li><li>It works out every day of the week itself from the date. It never copies one from a
+message or trusts its own guess.</li></ol><figure><img src=/posts/school-email-bot/what-the-bot-can-do.png alt="Diagram: the bot reads Gmail and Google Calendar read-only and TalkingPoints in its own browser, sends only from its own Gmail to one shared list, and never sends as me, changes the calendar, replies to the school or invents a detail"><figcaption><p>What the bot can read, where it can send, and what it never does.</p></figcaption></figure><p>TalkingPoints needed the most care. It has no API, i.e. no official way for a program to
+read it, so the bot reads it the way a person would, in a web browser. I run the bot on
+<a href=https://cursor.com/docs/grok-bot/get-started>Grok Bot</a>, which runs its bots on a cloud
+computer with a web browser, and the bot stays signed in to TalkingPoints there between
+runs.</p><p>Signing in to TalkingPoints takes a code sent by text message to a phone number that the
+school manages. So, when the session expires, the bot stops and asks me to sign in. I
+click &ldquo;Open computer&rdquo; in Grok Bot, take over the bot&rsquo;s screen, type in the code from my
+phone and hand control back. I looked into giving the bot a virtual phone number so it
+could read its own codes, and decided against it. The number is managed by the school, and
+a number the bot could read would be a key to the account. So for now, I type in the code
+myself, and I&rsquo;ll revisit that if it starts happening often.</p><h3 id=what-went-wrong>What Went Wrong?</h3><p>Quite a bit, and the failures that matter most are the quiet ones. A crash is easy to
+spot, since no digest shows up. A digest that looks complete but isn&rsquo;t is much worse,
+because you trust it.</p><ol><li>On September 11, the bot took the day of the week from the text of a message instead of from when the message was sent. By the end of September it had
+mixed up weekdays on its own too, so now it calculates every weekday from the date.</li><li>On October 10, the weekly email skipped TalkingPoints without saying so. Now the bot
+has to check TalkingPoints on every run, and if it can&rsquo;t, a warning goes at the very top
+of the digest.</li><li>On October 11, a digest arrived full of raw formatting code, e.g. <code>&lt;h3></code> where a
+heading should have been. Now a small program checks every email before it&rsquo;s sent, and
+the bot isn&rsquo;t allowed to send until the check passes.</li><li>On October 15, the bot reported that TalkingPoints had signed it out. It hadn&rsquo;t. The
+bot had judged from the app&rsquo;s front page alone. A corrected digest went out the same
+day, and now the bot confirms a sign-out by opening a page that only a signed-in user
+can reach.</li></ol><figure><img src=/posts/school-email-bot/failures-to-rules.png alt="Four rows, each pairing a quiet failure with the rule it became: September 11 weekday, October 10 skipped TalkingPoints, October 11 raw formatting code, October 15 false sign-out"><figcaption><p>The four quiet failures, and the rule each one became.</p></figcaption></figure><p>If you recall from my post on <a href=/posts/backtest-noise/>random seeds</a>,
+the dangerous results there didn&rsquo;t crash either. They looked convincing. A digest that
+quietly skips a source is the same kind of bug, and the fix was the same kind of fix: a
+check that runs every time, whether or not anyone remembers it.</p><p>There were plumbing problems too. In early October, the bot&rsquo;s Gmail connection lost the
+ability to send, so it got a backup way to send email, and a week later the cloud computer
+blocked that backup, by which point the Gmail connection worked again. All told, 5 of the
+44 digests were corrections or second versions.</p><p>Every one of those lessons became a written rule. But written where?</p><h3 id=why-do-the-bots-live-in-a-git-repo>Why Do the Bots Live in a Git Repo?</h3><p>For the first five weeks, the bot&rsquo;s setup, its instructions and its rules lived only on
+the cloud computer. If that computer had gone away, I would have had to rebuild the bot
+from memory. On October 14 the bot exported all of it into my memex, and that is where its
+rules live now.</p><p>My memex is a git repo of markdown files. If you haven&rsquo;t used git, a repo is a folder that
+records every change, so you can see what changed, when, and undo any of it. Markdown is
+plain text with a little formatting. The name comes from Vannevar Bush&rsquo;s 1945 essay &ldquo;As We
+May Think&rdquo;, where a memex is a device in which a person &ldquo;stores all his books, records,
+and communications&rdquo;, so that it &ldquo;may be consulted with exceeding speed and flexibility.&rdquo;
+Mine is less grand than that.</p><p>I started it because AIs kept tripping over my documents. I had pointed Claude at my
+Google Drive, and when it edited a Google Doc, it would create a new version of the
+document instead of changing the one I had, which got messy and tedious fast. Claude has
+its own documents that it can edit, but other AIs can&rsquo;t easily read them. Most AIs also
+couldn&rsquo;t search my Drive well enough to find things, so I often ended up exporting
+documents to PDF and uploading them by hand. A note-taking app wasn&rsquo;t the answer either,
+since you&rsquo;re limited to the structure and features the app gives you. A folder of markdown
+files, on the other hand, seems to be something an AI can work with natively. So I
+downloaded my Drive, had the AI summarize the non-sensitive parts into the memex, and now
+any AI I use can read and update the same notes. I also have the full history of every
+change.</p><p>Every note starts with a short header that says what it is, when it changed and how
+private it is. A checker reads every note, a script builds an index of all of them, and a
+decisions log records each ruling with its date. 185 automated tests run on every change.
+There is even a cleanup pass I call &ldquo;dream&rdquo;, which checks, re-indexes and tidies up the
+notes.</p><p>Each bot has a profile in the repo called <code>BOT.md</code>. It records where the bot runs, its
+instructions word for word, what it has access to, the decisions it must follow and every
+lesson above. Changes to it arrive as a pull request, which is a proposed change I can read
+before I accept it, and the bot is expected to update its profile whenever its setup
+changes. So, if the cloud computer disappeared tomorrow, I could rebuild the bot from
+what&rsquo;s in the repo.</p><p>Having the profile has one more advantage. Because the bot already knows how it works and
+what was in the latest newsletters, I don&rsquo;t have to explain anything when I ask it a
+question. I just ask, e.g. whether anything changed for a field trip, and it has the
+context.</p><h3 id=what-would-i-do-differently-from-day-one>What Would I Do Differently From Day One?</h3><p>The school bot came first, and it grew its rules one failure at a time. The bots I&rsquo;ve
+built since start from a template, and they go a step further: everything they produce,
+not just their profile, arrives in the memex as a pull request. I cleaned up that template
+and published it as <a href=https://github.com/redgeoff/memex-bots>memex-bots</a>. This part is
+more technical, so feel free to skim. These are its rules.</p><ol><li>The AI finds and judges, and ordinary code decides. The AI searches with its own tools
+and writes down what it found. A small Python program checks that, scores it and writes
+the digest. Because the scores come from code, the same input always gets the same
+result.</li><li>Every item needs a source. An item without a link and a short quote is dropped, and the
+digest says how many were dropped.</li><li>Every run is one pull request, never a direct change. GitHub enforces that, and it also
+requires CI to pass first. CI, short for continuous integration, is the set of automated
+checks that run on every proposed change.</li><li>A file named <code>PAUSED</code> stops a bot, and a cap on unreviewed pull requests stops a bot
+that&rsquo;s running away.</li><li>A failed run still opens a pull request, with a &ldquo;Run problems&rdquo; section that says what
+went wrong. That&rsquo;s the October 10 lesson, built into the template.</li><li>Every bot starts as a written plan: what it&rsquo;s for, how much of my time it may take each
+week, what&rsquo;s off-limits, when to shut it down and the open questions, all before any
+code.</li><li>Every bot gets its own GitHub access token, a key that only works on the one repo and
+expires on a set date.</li><li>Every bot keeps its own <code>BOT.md</code> up to date.</li></ol><p>You can try it without an AI. Download the repo and run the example, and the program runs
+on sample data: it writes a digest, adds a line to a log, and lists the one item with no
+link under &ldquo;Run problems&rdquo; instead of quietly using it.</p><h3 id=what-does-it-take-to-run-them>What Does It Take to Run Them?</h3><p>I run my bots on Grok Bot for now, because it comes with my Cursor subscription and has a
+web browser built in. The template doesn&rsquo;t depend on Grok Bot, though. Any AI agent that
+can run on a schedule, read and write files, run a program and open a pull request can run
+these bots, and the repo has a short guide to controlling a bot from your phone through a
+private Slack channel.</p><p>Grok Bot isn&rsquo;t the only option anymore. OpenAI&rsquo;s
+<a href=https://help.openai.com/en/articles/20001530-getting-started-with-your-dot>dots</a> and
+Meta&rsquo;s <a href=https://en.wikipedia.org/wiki/Muse_(AI_agent)>Muse</a> are newer services that also
+give each AI agent a cloud computer with a browser, and each one has its own advantages
+when it comes to data. For example, Grok Bot appears to be able to search posts on X, and
+Muse can search and monitor Facebook. I&rsquo;m currently using Muse to watch a Buy Nothing group
+for anyone giving away a golf bag.</p><p>Before Grok Bot, I built &ldquo;automations&rdquo; with OpenClaw, and then with Hermes because it
+handled failures better, using OpenRouter to choose the AI model. You can do some pretty
+powerful things that way, but you&rsquo;re ultimately limited by the model. I&rsquo;ve found that
+useful bots still need one of the most capable models, and the best bang for your buck
+right now seems to be the monthly subscriptions from the leading AI labs. Open-weight
+models like DeepSeek, which anyone can download and run, are promising, but in my
+experience they weren&rsquo;t really cheaper than something like Grok Bot. My guess is that the
+AI companies are covering some of the cost today, so that could change.</p><p>Whichever service you use, I&rsquo;d encourage you to build a bot for whatever keeps piling up in
+your inbox. Run it by hand for a few days and check every digest against the original
+messages before you put it on a schedule, and every time it gets something wrong, add a
+rule. I&rsquo;m planning a follow-up post with step-by-step directions for building a school
+digest bot like this one. And if a bot turns into something you rely on, that&rsquo;s the time
+to write its rules and profile down in a repo, so its memory belongs to you and it can move
+to the next service with you.</p><p>Thanks for reading.</p></div><div><ul class=tags><li><a href=https://redgeoff.com/tags/ai/ class=tag-link>Ai</a></li><li><a href=https://redgeoff.com/tags/ai-agents/ class=tag-link>Ai Agents</a></li><li><a href=https://redgeoff.com/tags/automation/ class=tag-link>Automation</a></li><li><a href=https://redgeoff.com/tags/grok/ class=tag-link>Grok</a></li><li><a href=https://redgeoff.com/tags/cursor/ class=tag-link>Cursor</a></li><li><a href=https://redgeoff.com/tags/productivity/ class=tag-link>Productivity</a></li></ul></div><div class=newsletter><iframe width=540 height=520 src="https://bffb2dc6.sibforms.com/v2/serve/MUIFAPjHosAP8284TaGRBVW61iYKp1ogvyXwlunHvyIwETQiAyVXU9IxSqnckuMu0k1QxJpCdyCfQpz-2Dvh4ZliV5G3Tngq6jxlwaFgc2FsU8mpdyWnGJlRB8-4Qkx9J35Auq0OmBzuU51WjSvV2yFaIcROdD5DJzojJAMaU7_TCfrZ8XQvzQvM7560FqwweK9gOA9CeVRkSUHBVA==" title="Subscribe to new posts by email" frameborder=0 scrolling=auto allowfullscreen></iframe></div></div></main><footer><div><p>&copy; Geoff Cox 2026</p></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js integrity="sha256-MAgcygDRahs+F/Nk5Vz387whB4kSK9NXlDN3w58LLq0=" crossorigin=anonymous></script><script src=/js/jquery.min.js></script><script src=/js/soho.js></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZMV9CF3YF6"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ZMV9CF3YF6")}</script></body></html>
