@@ -48,3 +48,33 @@ ol {
     height: 520px;
   }
 }
+/* Heading links (layouts/_default/_markup/render-heading.html): a "#" after each heading,
+   shown on hover or keyboard focus, and always faintly on touch screens. */
+.heading-anchor {
+  margin-left: 0.35em;
+  color: #999;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.heading-anchor::before {
+  content: "#";
+}
+
+h1:hover .heading-anchor, h2:hover .heading-anchor, h3:hover .heading-anchor,
+h4:hover .heading-anchor, h5:hover .heading-anchor, h6:hover .heading-anchor,
+.heading-anchor:focus {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .heading-anchor {
+    opacity: 0.4;
+  }
+}
+
+/* Leave a little room above a heading reached by its link. */
+:target {
+  scroll-margin-top: 1em;
+}
